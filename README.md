@@ -2,7 +2,7 @@
 
 We have provided you with a partly completed solution to accomplish the task of being able to calculate triangle coordinates based off of a grid value and a grid value based off of coordinates.
 
-The Unit tests inside the project are already complete, but they are failing due to the missing implentation, these will all need to pass before the task seen as completed.
+The Unit tests inside the project are already complete, but they are failing due to the missing implementation, these will all need to pass before the task can be seen as completed.
 
 The architecture in the solution is a rough guide to help you organise the implementation, feel free to deviate away from this if you feel a better way to accomplish the task at hand.
 
@@ -30,6 +30,7 @@ Each non-hypotenuse side of the triangle is as follows:
 Useful documents:
 
 If you would like to test your API using postman, here is a link: https://www.postman.com/
+
 How to import a collection: https://learning.postman.com/docs/getting-started/importing-and-exporting-data/
 
 Postman Collection: 
