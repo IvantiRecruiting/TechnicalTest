@@ -37,15 +37,16 @@ namespace TechnicalTest.API.Controllers
         [HttpPost]
         public IActionResult CalculateCoordinates([FromBody]CalculateCoordinatesDTO calculateCoordinatesRequest)
         {
-            // TODO: Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
-
-            // TODO: Call the Calculate function in the shape factory.
-
-            // TODO: Return BadRequest with error message if the calculate result is null
-
-            // TODO: Create ResponseModel with Coordinates and return as OK with responseModel.
-
-            return Ok();
+            if (calculateCoordinatesRequest.ShapeType != 1) {
+                return BadRequest();
+            }
+            Shape? tri = _shapeFactory.CalculateCoordinates(ShapeEnum.Triangle, new GridValue(calculateCoordinatesRequest.GridValue));
+            if (tri == null) {
+                return BadRequest(400);
+            }
+            CalculateCoordinatesResponseDTO response = new CalculateCoordinatesResponseDTO();
+            response.Coordinates = tri.Coordinates;
+            return Ok(response);
         }
 
         /// <summary>
@@ -64,17 +65,16 @@ namespace TechnicalTest.API.Controllers
         [HttpPost]
         public IActionResult CalculateGridValue([FromBody]CalculateGridValueDTO gridValueRequest)
         {
-	        // TODO: Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
-
-            // TODO: Create new Shape with coordinates based on the parameters from the DTO.
-
-            // TODO: Call the function in the shape factory to calculate grid value.
-
-            // TODO: If the GridValue result is null then return BadRequest with an error message.
-
-            // TODO: Generate a ResponseModel based on the result and return it in Ok();
-
-            return Ok();
+            if (gridValueRequest.ShapeType != 1) {
+                return BadRequest();
+            }
+            Shape shape = new Shape(gridValueRequest.Vertices);
+            GridValue? gridVal = _shapeFactory.CalculateGridValue(ShapeEnum.Triangle, shape);
+            if (gridVal == null){
+                return BadRequest(400);
+            }
+            CalculateGridValueResponseDTO response = new CalculateGridValueResponseDTO(gridVal.Row, gridVal.Column);
+            return Ok(response);
         }
     }
 }

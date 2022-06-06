@@ -4,8 +4,8 @@ namespace TechnicalTest.Core.Interfaces
 {
     public interface IShapeService
     {
-        Shape ProcessTriangle(Grid grid, GridValue gridValue);
+        Shape ProcessTriangle(GridValue gridValue);
 
-        GridValue ProcessGridValueFromTriangularShape(Grid grid, Triangle triangle);
+        GridValue ProcessGridValueFromTriangularShape(Triangle triangle);
     }
 }

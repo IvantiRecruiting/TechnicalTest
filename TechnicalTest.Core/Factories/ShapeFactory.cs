@@ -12,28 +12,26 @@ namespace TechnicalTest.Core.Factories
 	        _shapeService = shapeService;
         }
 
-        public Shape? CalculateCoordinates(ShapeEnum shapeEnum, Grid grid, GridValue gridValue)
+        public Shape? CalculateCoordinates(ShapeEnum shapeEnum, GridValue gridValue)
         {
             switch (shapeEnum)
             {
                 case ShapeEnum.Triangle:
-                    // TODO: Return shape returned from service.
-	                return new Shape();
+	                return _shapeService.ProcessTriangle(gridValue);
                 default:
                     return null;
             }
         }
 
-        public GridValue? CalculateGridValue(ShapeEnum shapeEnum, Grid grid, Shape shape)
+        public GridValue? CalculateGridValue(ShapeEnum shapeEnum, Shape shape)
         {
             switch (shapeEnum)
             {
                 case ShapeEnum.Triangle:
                     if (shape.Coordinates.Count != 3)
                         return null;
-
-                    // TODO: Return grid value returned from service.
-                    return new GridValue(0, 0);
+                    else
+                        return _shapeService.ProcessGridValueFromTriangularShape((Triangle) shape);
                 default:
                     return null;
             }
