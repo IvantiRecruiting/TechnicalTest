@@ -17,8 +17,8 @@ namespace TechnicalTest.Core.Factories
             switch (shapeEnum)
             {
                 case ShapeEnum.Triangle:
-                    // TODO: Return shape returned from service.
-	                return new Shape();
+                    //Returns shape returned from service.
+                    return _shapeService.ProcessTriangle(grid, gridValue);
                 default:
                     return null;
             }
@@ -29,14 +29,22 @@ namespace TechnicalTest.Core.Factories
             switch (shapeEnum)
             {
                 case ShapeEnum.Triangle:
+
                     if (shape.Coordinates.Count != 3)
                         return null;
 
-                    // TODO: Return grid value returned from service.
-                    return new GridValue(0, 0);
+                    List<Coordinate> coordinates = shape.Coordinates;
+
+                    //Returns grid value returned from service.
+                    return _shapeService.ProcessGridValueFromTriangularShape(grid, new Triangle(coordinates[1], coordinates[2], coordinates[3]));
                 default:
                     return null;
             }
+        }
+
+        Shape? IShapeFactory.CalculateCoordinates(Grid grid, GridValue gridValue)
+        {
+            throw new NotImplementedException();
         }
     }
 }
