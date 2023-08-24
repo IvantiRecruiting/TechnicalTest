@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using TechnicalTest.API.DTOs;
 using TechnicalTest.Core;
 using TechnicalTest.Core.Interfaces;
@@ -37,15 +38,36 @@ namespace TechnicalTest.API.Controllers
         [HttpPost]
         public IActionResult CalculateCoordinates([FromBody]CalculateCoordinatesDTO calculateCoordinatesRequest)
         {
-            // TODO: Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
 
-            // TODO: Call the Calculate function in the shape factory.
+            //Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
 
-            // TODO: Return BadRequest with error message if the calculate result is null
+            ShapeEnum ShapeResult = (ShapeEnum)calculateCoordinatesRequest.ShapeType;
 
-            // TODO: Create ResponseModel with Coordinates and return as OK with responseModel.
+            if (ShapeResult == ShapeEnum.None || ShapeResult != ShapeEnum.Triangle)
+            {
+                return BadRequest("shape returned as none or not a triangle");
+            }
 
-            return Ok();
+
+            //Call the Calculate function in the shape factory.
+
+            Grid grid = new Grid(calculateCoordinatesRequest.Grid.Size);
+
+            GridValue gridValue = new GridValue(calculateCoordinatesRequest.GridValue);
+
+            Shape? shape = _shapeFactory.CalculateCoordinates(grid, gridValue);
+
+
+            //Return BadRequest with error message if the calculate result is null
+
+            if (shape == null || grid == null || gridValue == null)
+            {
+                return BadRequest("result cannot be null");
+            } 
+
+            //Create ResponseModel with Coordinates and return as OK with responseModel.
+
+            return Ok(shape.Coordinates);
         }
 
         /// <summary>
@@ -64,17 +86,42 @@ namespace TechnicalTest.API.Controllers
         [HttpPost]
         public IActionResult CalculateGridValue([FromBody]CalculateGridValueDTO gridValueRequest)
         {
-	        // TODO: Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
+            //Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
 
-            // TODO: Create new Shape with coordinates based on the parameters from the DTO.
+            ShapeEnum shapeEnumResult = (ShapeEnum)gridValueRequest.ShapeType;
+            
+            if (shapeEnumResult == ShapeEnum.None || shapeEnumResult != ShapeEnum.Triangle)
+            {
+                return BadRequest("ERROR Only Triangle is implemented so far");
+            }
 
-            // TODO: Call the function in the shape factory to calculate grid value.
+            //Create new Shape with coordinates based on the parameters from the dto
 
-            // TODO: If the GridValue result is null then return BadRequest with an error message.
+            List<Coordinate> coordinates = new();
+            foreach (Vertex v in gridValueRequest.Vertices)
+            {
+                coordinates.Add(new(v.x, v.y));
+            }
 
-            // TODO: Generate a ResponseModel based on the result and return it in Ok();
 
-            return Ok();
+
+            //Call the function in the shape factory to calculate grid value.
+
+            Shape shape = new(coordinates);
+
+            GridValue? gridValue = _shapeFactory.CalculateGridValue(shapeEnumResult, new Grid(gridValueRequest.Grid.Size), shape);
+
+            //If the GridValue result is null then return BadRequest with an error message.
+
+            if (gridValue == null)
+            {
+                return BadRequest("ERROR GridValue cannot be NULL");
+            }
+
+            //Generate a ResponseModel based on the result and return it in Ok();
+
+
+            return Ok(new CalculateGridValueResponseDTO(gridValue.Row, gridValue.Column));
         }
     }
 }
