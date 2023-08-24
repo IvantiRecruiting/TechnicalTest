@@ -52,10 +52,11 @@ namespace TechnicalTest.API.Controllers
             //Call the Calculate function in the shape factory.
 
             Grid grid = new Grid(calculateCoordinatesRequest.Grid.Size);
-
             GridValue gridValue = new GridValue(calculateCoordinatesRequest.GridValue);
+            ShapeEnum shapeEnum = new ShapeEnum();
 
-            Shape? shape = _shapeFactory.CalculateCoordinates(grid, gridValue);
+
+            Shape? shape = _shapeFactory.CalculateCoordinates(shapeEnum,  grid,  gridValue);
 
 
             //Return BadRequest with error message if the calculate result is null
