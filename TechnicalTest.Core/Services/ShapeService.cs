@@ -8,7 +8,6 @@ namespace TechnicalTest.Core.Services
 
     {
 
-
         public Shape ProcessTriangle(Grid grid, GridValue gridValue)
         {
             //Calculate the coordinates.
@@ -44,14 +43,13 @@ namespace TechnicalTest.Core.Services
             // Calculate the grid value.
             Coordinate OuterVertex = triangle.OuterVertex;
             Coordinate BottomRightVertex = triangle.BottomRightVertex;
-            // OuterVertex as the base point, compare BottomRightVertex decided whether left or right triangle
-            // TopLeftVertex also fine, TopLeft.X = Outer.X -> Left, TopLeft.Y = Outer.Y -> right
+
+            // OuterVertex as the base point,BottomRightVertex is used to decided whether it is left or right triangle
             int row = OuterVertex.Y / grid.Size;
             int col = OuterVertex.X / grid.Size * 2;
 
 
             // process left triangle
-
             if (BottomRightVertex.Y == OuterVertex.Y)
             {
                 col++;
@@ -61,6 +59,7 @@ namespace TechnicalTest.Core.Services
             {
                 row++;
             }
+
             return new GridValue(row, col);
         }
     }
