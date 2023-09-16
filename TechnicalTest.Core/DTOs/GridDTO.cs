@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TechnicalTest.API.DTOs
+namespace TechnicalTest.Core.DTOs
 {
     public class GridDTO
     {
