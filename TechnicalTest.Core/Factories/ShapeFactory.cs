@@ -18,7 +18,7 @@ namespace TechnicalTest.Core.Factories
             {
                 case ShapeEnum.Triangle:
                     // TODO: Return shape returned from service.
-	                return new Shape();
+	                return _shapeService.ProcessTriangle(grid, gridValue);
                 default:
                     return null;
             }
@@ -29,11 +29,14 @@ namespace TechnicalTest.Core.Factories
             switch (shapeEnum)
             {
                 case ShapeEnum.Triangle:
+                    // TODO: RM Move this check elsewhere it shouldn't be in a calculate value method
                     if (shape.Coordinates.Count != 3)
                         return null;
 
+                    var triangle = new Triangle(shape.Coordinates[0], shape.Coordinates[1], shape.Coordinates[2]);
+
                     // TODO: Return grid value returned from service.
-                    return new GridValue(0, 0);
+                    return _shapeService.ProcessGridValueFromTriangularShape(grid, triangle);
                 default:
                     return null;
             }
