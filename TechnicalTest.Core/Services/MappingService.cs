@@ -51,5 +51,10 @@ namespace TechnicalTest.Core.Services
             return result;
 
         }
+
+        public CalculateGridValueResponseDTO ConvertGridValueToGridValueResponseDTO(GridValue gridValue)
+        {
+            return new CalculateGridValueResponseDTO(gridValue.Row!, gridValue.Column);
+        }
     }
 }

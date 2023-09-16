@@ -13,6 +13,8 @@ namespace TechnicalTest.Core.Interfaces
 
         public CalculateCoordinatesResponseDTO ConvertShapeToCoordinateResponseDTO(Shape shape);
 
-        public Shape ConvertVerticesToShape(List<Vertex> vertices); 
+        public Shape ConvertVerticesToShape(List<Vertex> vertices);
+
+        public CalculateGridValueResponseDTO ConvertGridValueToGridValueResponseDTO(GridValue gridValue);
     }
 }
