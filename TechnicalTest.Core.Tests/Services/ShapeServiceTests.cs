@@ -44,7 +44,7 @@ namespace TechnicalTest.Core.Tests.Services
 
             Assert.NotNull(shape);
             Assert.Contains(shape.Coordinates, (c) => c.X == 0 && c.Y == 0);
-            //modified c.Y as it was originally 10 this would never pass
+            //modified c.Y as it was originally 10.This would pass however it doesn't include all 3 coordinates
             Assert.Contains(shape.Coordinates, (c) => c.X == 10 && c.Y == 0);
             Assert.Contains(shape.Coordinates, (c) => c.X == 10 && c.Y == 10);
         }
@@ -59,7 +59,7 @@ namespace TechnicalTest.Core.Tests.Services
 
             Assert.NotNull(shape);
             Assert.Contains(shape.Coordinates, (c) => c.X == 20 && c.Y == 30);
-            //modified c.Y as it was originally 30 this would never pass
+            //modified c.Y as it was originally 30.This would pass however it doesn't include all 3 coordinates
             Assert.Contains(shape.Coordinates, (c) => c.X == 20 && c.Y == 40);
             Assert.Contains(shape.Coordinates, (c) => c.X == 30 && c.Y == 40);
         }
