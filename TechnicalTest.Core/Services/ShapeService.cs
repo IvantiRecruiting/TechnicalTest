@@ -5,18 +5,19 @@ namespace TechnicalTest.Core.Services
 {
     public class ShapeService : IShapeService
     {
-        
+
 
         public Shape ProcessTriangle(Grid grid, GridValue gridValue)
         {
 
-            if(IsLeftTriangle(gridValue.Column))
+            if (IsLeftTriangle(gridValue.Column))
             {
                 return new Triangle(CalculateLeftTopLeftVertex(grid, gridValue), CalculateLeftOuterVertex(grid, gridValue), CalculateLeftBottomRightVertex(grid, gridValue));
 
-            } else
+            }
+            else
             {
-                return new Triangle(CalculateRightTopLeftVertex(grid,gridValue), CalculateRightOuterVertex(grid, gridValue), CalculateRightBottomRightVertex(grid, gridValue));
+                return new Triangle(CalculateRightTopLeftVertex(grid, gridValue), CalculateRightOuterVertex(grid, gridValue), CalculateRightBottomRightVertex(grid, gridValue));
             }
 
         }
@@ -29,19 +30,21 @@ namespace TechnicalTest.Core.Services
 
             int gvColumn = GetGridValueColumn(grid, triangle);
 
-            if(IsLeftTriangleViaCoordinates(triangle))
+            if (IsLeftTriangleViaCoordinates(triangle))
             {
-                gvColumn = gvColumn + 1;
-            } else if(IsRightTriangleViaCoordinates(triangle))
+                gvColumn++;
+
+            }
+            else if (IsRightTriangleViaCoordinates(triangle))
             {
-                gvRow = gvRow + 1;  
+                gvRow++;
             }
 
 
             return new GridValue(gvRow, gvColumn);
         }
 
-   
+
         private static bool IsLeftTriangle(int column)
         {
             return column % 2 != 0;
@@ -61,31 +64,33 @@ namespace TechnicalTest.Core.Services
 
         public static Coordinate CalculateLeftTopLeftVertex(Grid grid, GridValue gridValue)
         {
-           return new (gridValue.Column / 2 * grid.Size, (gridValue.GetNumericRow() - 1) * grid.Size);
+            return new(gridValue.Column / 2 * grid.Size, (gridValue.GetNumericRow() - 1) * grid.Size);
         }
 
         public static Coordinate CalculateRightTopLeftVertex(Grid grid, GridValue gridValue)
         {
-            return new ((gridValue.Column / 2 - 1) * grid.Size, (gridValue.GetNumericRow() - 1) * grid.Size);
+            return new((gridValue.Column / 2 - 1) * grid.Size, (gridValue.GetNumericRow() - 1) * grid.Size);
         }
 
         public static Coordinate CalculateLeftOuterVertex(Grid grid, GridValue gridValue)
         {
-            return new (gridValue.Column / 2 * grid.Size, gridValue.GetNumericRow() * grid.Size);
+            return new(gridValue.Column / 2 * grid.Size, gridValue.GetNumericRow() * grid.Size);
 
         }
 
-        public static Coordinate CalculateRightOuterVertex(Grid grid, GridValue gridValue) { 
+        public static Coordinate CalculateRightOuterVertex(Grid grid, GridValue gridValue)
+        {
             return new(gridValue.Column / 2 * grid.Size, (gridValue.GetNumericRow() - 1) * grid.Size);
         }
 
         public static Coordinate CalculateLeftBottomRightVertex(Grid grid, GridValue gridValue)
         {
-            return new ((gridValue.Column / 2 + 1) * grid.Size, gridValue.GetNumericRow() * grid.Size);
+            return new((gridValue.Column / 2 + 1) * grid.Size, gridValue.GetNumericRow() * grid.Size);
         }
 
-        public static Coordinate CalculateRightBottomRightVertex( Grid grid, GridValue gridValue) {
-            return new (gridValue.Column / 2 * grid.Size, gridValue.GetNumericRow() * grid.Size);
+        public static Coordinate CalculateRightBottomRightVertex(Grid grid, GridValue gridValue)
+        {
+            return new(gridValue.Column / 2 * grid.Size, gridValue.GetNumericRow() * grid.Size);
         }
 
 
