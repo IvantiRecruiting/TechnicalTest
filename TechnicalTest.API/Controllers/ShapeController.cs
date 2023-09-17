@@ -3,6 +3,7 @@ using TechnicalTest.Core;
 using TechnicalTest.Core.DTOs;
 using TechnicalTest.Core.Interfaces;
 using TechnicalTest.Core.Models;
+using TechnicalTest.Core.Constants;
 
 namespace TechnicalTest.API.Controllers
 {
@@ -14,18 +15,22 @@ namespace TechnicalTest.API.Controllers
     public class ShapeController : ControllerBase
     {
         private readonly IShapeFactory _shapeFactory;
-
         private readonly IMappingService _mappingService;
+        private readonly IValidationService _validationService;
+
+
 
         /// <summary>
         /// Constructor of the Shape Controller.
         /// </summary>
         /// <param name="shapeFactory"></param>
         /// <param name="mappingService"></param>
-        public ShapeController(IShapeFactory shapeFactory, IMappingService mappingService)
+        /// <param name="validationService"></param>
+        public ShapeController(IShapeFactory shapeFactory, IMappingService mappingService, IValidationService validationService)
         {
             _shapeFactory = shapeFactory;
             _mappingService = mappingService;
+            _validationService = validationService;
         }
 
         /// <summary>
@@ -43,15 +48,21 @@ namespace TechnicalTest.API.Controllers
         {
             // TODO: Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
 
+       
+            if(!_validationService.ValidateGridValue(calculateCoordinatesRequest.GridValue))
+            {
+                return BadRequest(ErrorMessages.InvalidGridValue);
+            }
+
             Grid grid = _mappingService.ConvertGridDTOtoModel(calculateCoordinatesRequest.Grid);
 
             GridValue gridValue = _mappingService.ConvertStringToGridValue(calculateCoordinatesRequest.GridValue);
 
             ShapeEnum shapeType = _mappingService.ConvertIntToShapeEnum(calculateCoordinatesRequest.ShapeType);
 
-            if (shapeType != ShapeEnum.Triangle)
+            if (_validationService.ValidateShapeTypeTriangle(shapeType))
             {
-                return BadRequest("Only a Triangle is currently implemented");
+                return BadRequest(ErrorMessages.TriangleImplemented);
             }
             // TODO: Call the Calculate function in the shape factory.
             Shape? shape = _shapeFactory.CalculateCoordinates(shapeType, grid, gridValue);
@@ -60,7 +71,7 @@ namespace TechnicalTest.API.Controllers
 
             if (shape == null)
             {
-                return BadRequest("Unable to calculate result, shape returned null");
+                return BadRequest(ErrorMessages.NoResult);
             }
 
             CalculateCoordinatesResponseDTO result = _mappingService.ConvertShapeToCoordinateResponseDTO(shape);
@@ -90,9 +101,9 @@ namespace TechnicalTest.API.Controllers
             // TODO: Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
             ShapeEnum shapeType = _mappingService.ConvertIntToShapeEnum(gridValueRequest.ShapeType);
 
-            if (shapeType != ShapeEnum.Triangle)
+            if (_validationService.ValidateShapeTypeTriangle(shapeType))
             {
-                return BadRequest("Only a Triangle is currently implemented");
+                return BadRequest(ErrorMessages.TriangleImplemented);
             }
 
             Grid grid = _mappingService.ConvertGridDTOtoModel(gridValueRequest.Grid);
@@ -106,7 +117,7 @@ namespace TechnicalTest.API.Controllers
             // TODO: If the GridValue result is null then return BadRequest with an error message.
             
             if(gridValue == null) {
-                return BadRequest("Unable to Calculate Result, GridValue returned null");
+                return BadRequest(ErrorMessages.NoResult);
             }
 
             // TODO: Generate a ResponseModel based on the result and return it in Ok();
