@@ -26,6 +26,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<IShapeService, ShapeService>();
 builder.Services.AddScoped<IShapeFactory, ShapeFactory>();
 builder.Services.AddScoped<IMappingService, MappingService>(); 
+builder.Services.AddScoped<IValidationService, ValidationService>();
 
 
 var app = builder.Build();
