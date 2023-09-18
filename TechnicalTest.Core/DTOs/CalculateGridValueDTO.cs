@@ -1,6 +1,8 @@
-﻿namespace TechnicalTest.Core.DTOs
+﻿using TechnicalTest.Core.Interfaces;
+
+namespace TechnicalTest.Core.DTOs
 {
-    public class CalculateGridValueDTO
+    public class CalculateGridValueDTO :IDTO
     {
         public GridDTO Grid { get; set; }
 

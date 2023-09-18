@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TechnicalTest.Core.Interfaces;
 
 namespace TechnicalTest.Core.DTOs
 {
-    public class CalculateCoordinatesDTO
+    public class CalculateCoordinatesDTO : IDTO
     {
         [Required]
         [MaxLength(3)]
