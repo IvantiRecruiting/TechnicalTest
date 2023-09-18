@@ -4,6 +4,7 @@ using TechnicalTest.Core.DTOs;
 using TechnicalTest.Core.Interfaces;
 using TechnicalTest.Core.Models;
 using TechnicalTest.Core.Constants;
+using TechnicalTest.Core.Factories;
 
 namespace TechnicalTest.API.Controllers
 {
@@ -16,21 +17,21 @@ namespace TechnicalTest.API.Controllers
     {
         private readonly IShapeFactory _shapeFactory;
         private readonly IMappingService _mappingService;
-        private readonly IValidationService _validationService;
-
-
+        private readonly IValidationHandlerFactory _validationFactory;
 
         /// <summary>
         /// Constructor of the Shape Controller.
         /// </summary>
         /// <param name="shapeFactory"></param>
         /// <param name="mappingService"></param>
-        /// <param name="validationService"></param>
-        public ShapeController(IShapeFactory shapeFactory, IMappingService mappingService, IValidationService validationService)
+        /// <param name="validationFactory"></param>
+
+        public ShapeController(IShapeFactory shapeFactory, IMappingService mappingService, IValidationHandlerFactory validationFactory)
         {
             _shapeFactory = shapeFactory;
             _mappingService = mappingService;
-            _validationService = validationService;
+            _validationFactory = validationFactory;
+            
         }
 
         /// <summary>
@@ -46,13 +47,16 @@ namespace TechnicalTest.API.Controllers
         [HttpPost]
         public IActionResult CalculateCoordinates([FromBody] CalculateCoordinatesDTO calculateCoordinatesRequest)
         {
-            // TODO: Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
 
-       
-            if(!_validationService.ValidateGridValue(calculateCoordinatesRequest.GridValue))
+            try
             {
-                return BadRequest(ErrorMessages.InvalidGridValue);
+                _validationFactory.GetHandler(calculateCoordinatesRequest).Validate();
             }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
 
             Grid grid = _mappingService.ConvertGridDTOtoModel(calculateCoordinatesRequest.Grid);
 
@@ -60,14 +64,7 @@ namespace TechnicalTest.API.Controllers
 
             ShapeEnum shapeType = _mappingService.ConvertIntToShapeEnum(calculateCoordinatesRequest.ShapeType);
 
-            if (_validationService.ValidateShapeTypeTriangle(shapeType))
-            {
-                return BadRequest(ErrorMessages.TriangleImplemented);
-            }
-            // TODO: Call the Calculate function in the shape factory.
             Shape? shape = _shapeFactory.CalculateCoordinates(shapeType, grid, gridValue);
-
-            // TODO: Return BadRequest with error message if the calculate result is null
 
             if (shape == null)
             {
@@ -75,9 +72,6 @@ namespace TechnicalTest.API.Controllers
             }
 
             CalculateCoordinatesResponseDTO result = _mappingService.ConvertShapeToCoordinateResponseDTO(shape);
-
-
-            // TODO: Create ResponseModel with Coordinates and return as OK with responseModel.
 
             return Ok(result);
         }
@@ -98,29 +92,29 @@ namespace TechnicalTest.API.Controllers
         [HttpPost]
         public IActionResult CalculateGridValue([FromBody] CalculateGridValueDTO gridValueRequest)
         {
-            // TODO: Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
+
+            try
+            {
+                _validationFactory.GetHandler(gridValueRequest).Validate();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
             ShapeEnum shapeType = _mappingService.ConvertIntToShapeEnum(gridValueRequest.ShapeType);
 
-            if (_validationService.ValidateShapeTypeTriangle(shapeType))
-            {
-                return BadRequest(ErrorMessages.TriangleImplemented);
-            }
-
+         
             Grid grid = _mappingService.ConvertGridDTOtoModel(gridValueRequest.Grid);
 
-            // TODO: Create new Shape with coordinates based on the parameters from the DTO.
             Shape shape = _mappingService.ConvertVerticesToShape(gridValueRequest.Vertices);
 
-            // TODO: Call the function in the shape factory to calculate grid value.
             GridValue? gridValue = _shapeFactory.CalculateGridValue(shapeType, grid, shape);
 
-            // TODO: If the GridValue result is null then return BadRequest with an error message.
-            
-            if(gridValue == null) {
+            if (gridValue == null)
+            {
                 return BadRequest(ErrorMessages.NoResult);
             }
-
-            // TODO: Generate a ResponseModel based on the result and return it in Ok();
 
             CalculateGridValueResponseDTO result = _mappingService.ConvertGridValueToGridValueResponseDTO(gridValue);
 
