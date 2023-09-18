@@ -28,7 +28,7 @@ namespace TechnicalTest.Core.Handlers
 
         public List<IGridValueValidator> validators = new()
         {
-            //TODO: Add a validator that checks the minimum and maximum value for the vertexs
+            new VertexRange()
         };
 
         public void Validate()
