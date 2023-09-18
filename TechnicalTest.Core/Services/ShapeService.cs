@@ -24,7 +24,6 @@ namespace TechnicalTest.Core.Services
 
         public GridValue ProcessGridValueFromTriangularShape(Grid grid, Triangle triangle)
         {
-            // TODO: Calculate the grid value.
 
             int gvRow = GetGridValueRow(grid, triangle);
 
