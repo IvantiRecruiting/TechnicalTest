@@ -2,6 +2,8 @@
 {
     public interface IValidationHandlerFactory
     {
-        IValidationHandler GetHandler(IDTO dto);
+        IValidationHandler GetDTOHandler(IDTO dto);
+
+        IValidationHandler GetModelHandler(IModel model);
     }
 }
