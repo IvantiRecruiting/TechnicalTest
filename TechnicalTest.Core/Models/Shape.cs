@@ -1,6 +1,8 @@
-﻿namespace TechnicalTest.Core.Models
+﻿using TechnicalTest.Core.Interfaces;
+
+namespace TechnicalTest.Core.Models
 {
-    public class Shape
+    public class Shape : IModel
     {
         public Shape(List<Coordinate> coordinates)
         {

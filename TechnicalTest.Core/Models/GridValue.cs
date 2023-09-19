@@ -1,6 +1,8 @@
-﻿namespace TechnicalTest.Core.Models
+﻿using TechnicalTest.Core.Interfaces;
+
+namespace TechnicalTest.Core.Models
 {
-    public class GridValue
+    public class GridValue : IModel
     {
         public GridValue(string gridValue)
         {
