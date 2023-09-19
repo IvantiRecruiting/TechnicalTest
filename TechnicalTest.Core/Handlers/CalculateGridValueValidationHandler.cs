@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TechnicalTest.Core.DTOs;
+﻿using TechnicalTest.Core.DTOs;
 using TechnicalTest.Core.Interfaces;
 using TechnicalTest.Core.Validation;
 
@@ -28,7 +23,7 @@ namespace TechnicalTest.Core.Handlers
 
         public List<IGridValueValidator> validators = new()
         {
-            new VertexRange()
+            new VertexRangeWhenGridSize10()
         };
 
         public void Validate()
