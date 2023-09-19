@@ -1,11 +1,11 @@
-﻿namespace TechnicalTest.Core.Models
+﻿using TechnicalTest.Core.Interfaces;
+
+namespace TechnicalTest.Core.Models
 {
-    public class GridValue
+    public class GridValue : IModel
     {
         public GridValue(string gridValue)
         {
-            if (string.IsNullOrEmpty(gridValue) || gridValue.Length != 2) return;
-
             Row = gridValue[..1];
             Column = int.Parse(gridValue[1..]);
         }

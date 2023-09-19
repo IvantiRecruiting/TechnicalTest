@@ -1,4 +1,4 @@
-﻿namespace TechnicalTest.API.DTOs
+﻿namespace TechnicalTest.Core.DTOs
 {
     public class CalculateCoordinatesResponseDTO
     {
