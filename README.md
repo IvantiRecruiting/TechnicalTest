@@ -6,7 +6,7 @@ The Unit tests inside the project are already complete, but they are failing due
 
 The architecture in the solution is a rough guide to help you organise the implementation, feel free to deviate away from this if you feel a better way to accomplish the task at hand.
 
-You are expected to clone the repository onto your local machine and complete the solution locally, useful documents can be found below with some tips on how to accomplish this and other things.
+You are expected to clone the repository onto your local machine, complete the solution locally and then create a new repository on your own GitHub account, useful documents can be found below with some tips on how to accomplish this and other things.
 
 The two requirements for the task are below.
 
