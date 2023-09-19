@@ -22,6 +22,6 @@ namespace TechnicalTest.Core.Constants
 
         public const string GridValueColumnNumber = "The GridValue second and optional third character must be a number";
 
-        public const string VertexRange = "Each vertex must be in a range of (0-60)";
+        public const string VertexRange = "Each vertex must be in a range of (0-60) when grid size is 10";
     }
 }
