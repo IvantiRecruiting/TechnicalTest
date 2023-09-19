@@ -50,7 +50,7 @@ namespace TechnicalTest.API.Controllers
 
             try
             {
-                _validationFactory.GetHandler(calculateCoordinatesRequest).Validate();
+                _validationFactory.GetDTOHandler(calculateCoordinatesRequest).Validate();
             }
             catch (Exception ex)
             {
@@ -66,9 +66,13 @@ namespace TechnicalTest.API.Controllers
 
             Shape? shape = _shapeFactory.CalculateCoordinates(shapeType, grid, gridValue);
 
-            if (shape == null)
+            try
             {
-                return BadRequest(ErrorMessages.NoResult);
+                _validationFactory.GetModelHandler(shape).Validate();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
 
             CalculateCoordinatesResponseDTO result = _mappingService.ConvertShapeToCoordinateResponseDTO(shape);
@@ -95,7 +99,7 @@ namespace TechnicalTest.API.Controllers
 
             try
             {
-                _validationFactory.GetHandler(gridValueRequest).Validate();
+                _validationFactory.GetDTOHandler(gridValueRequest).Validate();
             }
             catch (Exception ex)
             {
@@ -111,9 +115,13 @@ namespace TechnicalTest.API.Controllers
 
             GridValue? gridValue = _shapeFactory.CalculateGridValue(shapeType, grid, shape);
 
-            if (gridValue == null)
+            try
             {
-                return BadRequest(ErrorMessages.NoResult);
+                _validationFactory.GetModelHandler(gridValue).Validate();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
 
             CalculateGridValueResponseDTO result = _mappingService.ConvertGridValueToGridValueResponseDTO(gridValue);
