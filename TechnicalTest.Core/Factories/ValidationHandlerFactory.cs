@@ -1,4 +1,5 @@
-﻿using TechnicalTest.Core.DTOs;
+﻿using TechnicalTest.Core.Constants;
+using TechnicalTest.Core.DTOs;
 using TechnicalTest.Core.Handlers;
 using TechnicalTest.Core.Interfaces;
 using TechnicalTest.Core.Models;
@@ -19,7 +20,7 @@ namespace TechnicalTest.Core.Factories
                 return new CalculateGridValueValidationHandler((CalculateGridValueDTO)dto);
             }
 
-            throw new Exception("Handler Not Found");
+            throw new Exception(ErrorMessages.DTOHandler);
         }
 
         public IValidationHandler GetModelHandler(IModel model)
