@@ -6,8 +6,6 @@ namespace TechnicalTest.Core.Models
     {
         public GridValue(string gridValue)
         {
-            if (string.IsNullOrEmpty(gridValue) || gridValue.Length != 2) return;
-
             Row = gridValue[..1];
             Column = int.Parse(gridValue[1..]);
         }
