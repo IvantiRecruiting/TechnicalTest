@@ -3,6 +3,7 @@ using TechnicalTest.API.DTOs;
 using TechnicalTest.Core;
 using TechnicalTest.Core.Interfaces;
 using TechnicalTest.Core.Models;
+using TechnicalTest.Core.Factories;
 
 namespace TechnicalTest.API.Controllers
 {
@@ -64,17 +65,51 @@ namespace TechnicalTest.API.Controllers
         [HttpPost]
         public IActionResult CalculateGridValue([FromBody]CalculateGridValueDTO gridValueRequest)
         {
-	        // TODO: Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
-
-            // TODO: Create new Shape with coordinates based on the parameters from the DTO.
-
-            // TODO: Call the function in the shape factory to calculate grid value.
-
+	        if (gridValueRequest.ShapeType != 1){ // TODO: Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
+                var response = new ResponseModel<String>("Not a triangle");
+                return BadRequest(response);
+                }
+            ShapeEnum sE = ShapeEnum.Triangle;
+            //else continue
+            if (gridValueRequest.Vertices.Count() != 3){
+                var response = new ResponseModel<String>("Doesn't have three sides");
+                return BadRequest(response);
+            }
+            List<Coordinate> c = new List<Coordinate>();
+            foreach (Vertex v in gridValueRequest.Vertices){
+                Coordinate n = new Coordinate(v.x,v.y);
+                c.Add(n);
+            }
+            Shape s = new Shape(c);// TODO: Create new Shape with coordinates based on the parameters from the DTO.
+            
+            IShapeService shapeService;
+            shapeService = new IShapeServiceImplementation();
+            ShapeFactory sf = new ShapeFactory(shapeService);// TODO: Call the function in the shape factory to calculate grid value.
+            GridValue g = sf.CalculateGridValue(sE, new Grid(gridValueRequest.Grid.Size), s);
             // TODO: If the GridValue result is null then return BadRequest with an error message.
-
+            if(g == null){
+                var response = new ResponseModel<String>("Not succesful");
+                return BadRequest();
+            }
             // TODO: Generate a ResponseModel based on the result and return it in Ok();
+            var successResponse = new ResponseModel<GridValue>(g);
+            return Ok(successResponse);
+        }
+    }
 
-            return Ok();
+    public class ResponseModel<T>{
+        public bool Success {get; set;}
+        public T Data {get;set;}
+        public String message{get;set;}
+
+        public ResponseModel(T data){
+        Success = true;
+        Data = data;
+        }
+
+        public ResponseModel(String m){
+            Success = false;
+            message = m;
         }
     }
 }
