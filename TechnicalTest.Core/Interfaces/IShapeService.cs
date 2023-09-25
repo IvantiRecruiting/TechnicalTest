@@ -8,4 +8,16 @@ namespace TechnicalTest.Core.Interfaces
 
         GridValue ProcessGridValueFromTriangularShape(Grid grid, Triangle triangle);
     }
+
+    public class IShapeServiceImplementation:IShapeService{
+        public GridValue ProcessGridValueFromTriangularShape(Grid grid, Triangle triangle)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Shape ProcessTriangle(Grid grid, GridValue gridValue)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
